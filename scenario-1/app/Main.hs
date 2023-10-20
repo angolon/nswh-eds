@@ -5,7 +5,7 @@ import qualified Data.Bifunctor as BF
 import qualified Data.ByteString.Char8 as C
 import qualified Data.ByteString.Lazy as BL
 import qualified Data.ByteString.Lazy.Char8 as CL
-import Data.Csv (FromField (..), FromNamedRecord (..), (.:))
+import Data.Csv (encodeByName, FromField (..), FromNamedRecord (..), (.:))
 import Data.Csv.Incremental (decodeByName, HeaderParser (..), Parser (..))
 import qualified Data.List as L
 import qualified Data.List.NonEmpty as NE
@@ -68,5 +68,6 @@ main = do
   exitCode <-
     case deduped of
       Failure(errors) -> traverse_ (hPutStrLn stderr) errors >> exitFailure
-      Success(records) -> traverse_ (putStrLn . show) records >> exitSuccess
+      Success(records) -> 
+        CL.putStr $ encodeByName Lab.labHeader records
   return exitCode

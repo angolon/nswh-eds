@@ -5,7 +5,8 @@ import Data.Validation
 import qualified Data.Bifunctor as BF
 import qualified Data.List.NonEmpty as NE
 import Data.Time (Day)
-import Data.Csv (FromField (..), FromNamedRecord (..), (.:))
+import Data.Time.Format.ISO8601 (iso8601Show)
+import Data.Csv (header, Header, ToField (..), ToNamedRecord (..), namedRecord, (.=))
 import qualified Data.Time.Format as FT
 import qualified Data.ByteString.Char8 as C
 import qualified RawLab as Raw
@@ -89,6 +90,51 @@ data Lab = Lab
   , rsv :: Maybe Int
   , influenzaAB :: Maybe Int
   } deriving (Show, Eq, Ord)
+
+instance ToField Day where
+  toField = C.pack . iso8601Show
+
+instance ToNamedRecord Lab where
+  toNamedRecord lab = namedRecord [
+      "case_number" .= caseNum lab,
+      "first" .= first lab,
+      "surname" .= surname lab,
+      "dob" .= dob lab,
+      "gender" .= gender lab,
+      "mobile" .= mobile lab,
+      "street" .= street lab,
+      "suburb" .= suburb lab,
+      "postcode" .= postcode lab,
+      "state" .= state lab,
+      "collection_date" .= collectionDate lab,
+      "testDate" .= testDate lab,
+      "testType" .= testType lab,
+      "specimen_type" .= specimenType lab,
+      "covid19" .= covid19 lab,
+      "rsv" .= rsv lab,
+      "influenzaAB" .= (influenzaAB lab)
+    ]
+
+-- Horrible last minute hack because generic deriving isn't working
+labHeader :: Header = header [
+    "case_number",
+    "first",
+    "surname",
+    "dob",
+    "gender",
+    "mobile",
+    "street",
+    "suburb",
+    "postcode",
+    "state",
+    "collection_date",
+    "testDate",
+    "testType",
+    "specimen_type",
+    "covid19",
+    "rsv",
+    "influenzaAB"
+  ]
 
 fromRaw :: (Int, Raw.Lab) -> Validation (NE.NonEmpty String) Lab
 fromRaw (lineNum, raw) =
