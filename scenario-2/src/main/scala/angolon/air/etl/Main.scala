@@ -1,6 +1,6 @@
 package angolon.air.etl
 
-import org.apache.spark.sql.{Dataset, SparkSession}
+import org.apache.spark.sql.{Encoder, Dataset, SparkSession}
 import org.apache.spark.SparkConf
 
 object Main extends App {
@@ -16,14 +16,29 @@ object Main extends App {
   spark.sparkContext.setLogLevel("ERROR")
   import spark.implicits._
 
-  def readVaccinationEpisodes: Dataset[VaccinationEpisode] =
+  def readCsv[T: Encoder](path: String): Dataset[T] =
     spark.read
       .option("inferSchema", value = true)
       .option("header", value = true)
       .option("preferDate", value = true)
       .option("dateFormat", value = "yyyy-MM-dd")
-      .csv("../resources/FCT_VACCINATION_EPISODE.csv")
-      .as[VaccinationEpisode]
+      .csv(path)
+      .as[T]
+
+  def readVaccinationEpisodes: Dataset[VaccinationEpisode] =
+    readCsv("../resources/FCT_VACCINATION_EPISODE.csv")
+
+  def readVaccinationStatuses: Dataset[VaccinationStatus] =
+    readCsv("../resources/FCT_VACCINE_STATUS.csv")
+
+  def readPeople: Dataset[Person] =
+    readCsv("../resources/DM_PERSON.csv")
+
+  def readVaccines: Dataset[Vaccine] =
+    readCsv("../resources/DM_VACCINE.csv")
 
   readVaccinationEpisodes.show()
+  readVaccinationStatuses.show()
+  readPeople.show()
+  readVaccines.show()
 }
