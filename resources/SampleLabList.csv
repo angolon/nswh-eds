@@ -6,9 +6,9 @@
 "U9V0W1X2Y,Zach,Brown,30/11/1990,U,,222 Cedar St,Perth,6000,WA,03/10/2023,04/10/2023,PCR,Throat Swab,,03/10/2023,UK,COVID-19: 40; RSV: 15,Pos,Pos,Inv"
 "F6G7H8I9J,Kate,Smith,25/12/1995,F,,456 Elm St,Melbourne,3000,VIC,01/10/2023,02/10/2023,Rapid Antigen,Nasopharyngeal Swab,,01/10/2023,New Zealand,Flu A: N/A; COVID-19: N/A; RSV: 22,Neg,Pos,Neg"
 "A1B2C3D4E5,Emily,Anderson,12/07/1998,F,2109876543,333 Birch St,Sydney,2000,NSW,03/10/2023,04/10/2023,Rapid Antigen,Nasopharyngeal Swab,,,,Flu A: N/A; COVID-19: N/A; RSV: N/A,Neg,Neg,Neg"
-"F6G7H8I9J,Michael,Turner,20/04/1985,M,1098765432,444 Maple St,Melbourne,3000,VIC,04/10/2023,05/10/2023,PCR,Nasal Swab,,,,Flu A: N/A; RSV: N/A,Inv
-"K1L2M3N4O,Laura,Clark,-5/09/1975,F,8765432109,555 Cedar St,Brisbane,4000,QLD,04/10/2023,05/10/2023,Rapid Antigen,Throat Swab,,04/10/2023,New Zealand,Flu A: 26; RSV: 21,Inv,Pos,Pos"
+"F6G7H8I9J,Michael,Turner,20/04/1985,M,1098765432,444 Maple St,Melbourne,3000,VIC,04/10/2023,05/10/2023,PCR,Nasal Swab,,,,Flu A: N/A; RSV: N/A,Inv,Neg,Neg"
+"K1L2M3N4O,Laura,Clark,05/09/1975,F,8765432109,555 Cedar St,Brisbane,4000,QLD,04/10/2023,05/10/2023,Rapid Antigen,Throat Swab,,04/10/2023,New Zealand,Flu A: 26; RSV: 21,Inv,Pos,Pos"
 "U9V0W1X2Y,Zach,Brown,30/11/1990,U,,222 Cedar St,Perth,6000,WA,03/10/2023,04/10/2023,PCR,Throat Swab,,03/10/2023,UK,COVID-19: 40; RSV: 15,Pos,Pos,Inv"
 "P5Q6R7S8T,Daniel,Evans,14/02/1982,M,,666 Oak St,Adelaide,5000,SA,05/10/2023,06/10/2023,PCR,Nasal Swab,,05/10/2023,USA,Flu A: N/A; COVID-19: 23; RSV: 14,Pos,Pos,Neg"
-"U9V0W1X2Y,Sarah,Harris,09/-6/1994,F,6543210987,777 Pine St,Perth,6000,WA,05/10/2023,06/10/2023,Rapid Antigen,Nasopharyngeal Swab,,05/10/2023,UK,Flu A: N/A; COVID-19: N/A; RSV: N/A,Neg,Neg,Neg"
+"U9V0W1X2Y,Sarah,Harris,09/06/1994,F,6543210987,777 Pine St,Perth,6000,WA,05/10/2023,06/10/2023,Rapid Antigen,Nasopharyngeal Swab,,05/10/2023,UK,Flu A: N/A; COVID-19: N/A; RSV: N/A,Neg,Neg,Neg"
 "A1B2C3D4E5,John,Doe,15/05/1980,U,,123 Main St,Sydney,2000,NSW,01/10/2023,02/10/2023,PCR,Nasal Swab,,,,Flu A: N/A; COVID-19: 30; RSV: 18,Pos,Pos,Neg"
