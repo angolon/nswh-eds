@@ -35,6 +35,11 @@ object Main extends App {
       .csv(extractPath[T])
       .as[T]
 
+  def readParquet[T: Encoder : Locatable]: Dataset[T] =
+    spark.read
+      .parquet(outputPath[T])
+      .as[T]
+
   def etl(): Unit = {
     // Extract data from CSVs -- type based schemas will automatically
     // transform fields from the strings contained in the CSV into their
@@ -76,5 +81,20 @@ object Main extends App {
       .parquet(outputPath[VaccinationStatus])
   }
 
+  def summarise(): Unit = {
+    println("Person summary:")
+    readParquet[Person].summary("count", "min", "max").show()
+
+    println("Vaccine summary:")
+    readParquet[Vaccine].summary("count", "min", "max").show()
+
+    println("Vaccination Episode summary:")
+    readParquet[VaccinationEpisode].summary("count", "min", "max").show()
+
+    println("Vaccination Status summary:")
+    readParquet[VaccinationStatus].summary("count", "min", "max").show()
+  }
+
   etl()
+  summarise()
 }
