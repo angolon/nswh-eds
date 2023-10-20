@@ -8,3 +8,9 @@ case class VaccinationStatus(
   vaccine_status: String,
   date_given: LocalDate
 )
+
+object VaccinationStatus {
+  // Settings that would come from conf in the real world
+  val extractCsvPath = "FCT_VACCINE_STATUS.csv"
+  val outputParquetPath = "vaccinationStatuses.parquet"
+}

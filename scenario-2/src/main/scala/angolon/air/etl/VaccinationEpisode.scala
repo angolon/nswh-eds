@@ -11,3 +11,9 @@ case class VaccinationEpisode(
   provider: String,
   lot_number: String
 )
+
+object VaccinationEpisode {
+  // Settings that would come from conf in the real world
+  val extractCsvPath = "FCT_VACCINATION_EPISODE.csv"
+  val outputParquetPath = "vaccinationEpisodes.parquet"
+}

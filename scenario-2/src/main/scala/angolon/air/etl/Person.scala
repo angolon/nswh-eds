@@ -12,3 +12,9 @@ case class Person(
   phone: String,
   email: String
 )
+
+object Person {
+  // Settings that would come from conf in the real world
+  val extractCsvPath = "DM_PERSON.csv"
+  val outputParquetPath = "person.parquet"
+}

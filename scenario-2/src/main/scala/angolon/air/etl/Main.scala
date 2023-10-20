@@ -2,6 +2,7 @@ package angolon.air.etl
 
 import org.apache.spark.sql.{Encoder, Dataset, SaveMode, SparkSession}
 import org.apache.spark.SparkConf
+import java.nio.file.Path
 
 object Main extends App {
   val conf: SparkConf = new SparkConf()
@@ -25,17 +26,20 @@ object Main extends App {
       .csv(path)
       .as[T]
 
+  val extractDir = "../resources"
+  val outputDir = "./output"
+
   def readVaccinationEpisodes: Dataset[VaccinationEpisode] =
-    readCsv("../resources/FCT_VACCINATION_EPISODE.csv")
+    readCsv(Path.of(extractDir, VaccinationEpisode.extractCsvPath).toString)
 
   def readVaccinationStatuses: Dataset[VaccinationStatus] =
-    readCsv("../resources/FCT_VACCINE_STATUS.csv")
+    readCsv(Path.of(extractDir, VaccinationStatus.extractCsvPath).toString)
 
   def readPeople: Dataset[Person] =
-    readCsv("../resources/DM_PERSON.csv")
+    readCsv(Path.of(extractDir, Person.extractCsvPath).toString)
 
   def readVaccines: Dataset[Vaccine] =
-    readCsv("../resources/DM_VACCINE.csv")
+    readCsv(Path.of(extractDir, Vaccine.extractCsvPath).toString)
 
   def etl(): Unit = {
     // Extract data from CSVs -- type based schemas will automatically
