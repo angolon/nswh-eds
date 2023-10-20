@@ -11,66 +11,13 @@ import qualified Data.List as L
 import qualified Data.List.NonEmpty as NE
 import Data.Time (Day)
 import Data.Foldable (traverse_)
-import qualified Data.Time.Format as FT
 import Data.Maybe (fromMaybe)
 import Data.Validation
 import qualified Data.Vector as V
 import System.IO (hPutStrLn, stderr)
+import qualified RawLab as Raw
 
-data RawLab = RawLab
-  { caseNum :: !String
-  , first :: !String
-  , surname :: !String
-  , dob :: !Day
-  , gender :: !String
-  , mobile :: !String
-  , street :: !String
-  , suburb :: !String
-  , postcode :: !String
-  , state :: !String
-  , collectionDate :: !Day
-  , testDate :: !Day
-  , testType :: !String
-  , specimenType :: !String
-  , countryOfBirth :: !String
-  , dateOfArrival :: !String
-  , countryOfDeparture :: !String
-  , ctValues :: !String
-  , covid19 :: !String
-  , rsv :: !String
-  , influenzaAB :: !String
-  } deriving (Show, Eq)
-
-instance FromNamedRecord RawLab where
-  parseNamedRecord r =
-    RawLab
-      <$> r .: "Case #"
-      <*> r .: "First"
-      <*> r .: "Surname"
-      <*> r .: "DOB"
-      <*> r .: "Gender"
-      <*> r .: "Mobile"
-      <*> r .: "Street"
-      <*> r .: "Suburb"
-      <*> r .: "Postcode"
-      <*> r .: "State"
-      <*> r .: "Collection date"
-      <*> r .: "Test date"
-      <*> r .: "Test type"
-      <*> r .: "Specimen type"
-      <*> r .: "Country_of_Birth"
-      <*> r .: "Date_Of_Arrival"
-      <*> r .: "CountryOfDeparture"
-      <*> r .: "Ct Values"
-      <*> r .: "Covid-19"
-      <*> r .: "RSV"
-      <*> r .: "Influenza A/B"
-
-
-instance FromField Day where
-  parseField = (FT.parseTimeM True FT.defaultTimeLocale "%-d/%-m/%Y") . C.unpack
-
-parseLines :: CL.ByteString -> Validation (NE.NonEmpty String) [RawLab]
+parseLines :: CL.ByteString -> Validation (NE.NonEmpty String) [Raw.Lab]
 parseLines ls =
   sequenceA . readCsv decodeByName . CL.toChunks . CL.unlines . fmap clean $ CL.lines ls
           -- Provided input has CRLF terminators, and wraps each whole line in quotes
@@ -103,9 +50,6 @@ parseLines ls =
         readRecord [] lineNum records (Done parsed) =
           let (_, nextRecords) = countAndFormat lineNum parsed
            in nextRecords ++ records
-
--- parseDate :: Field -> Maybe T.Day
--- parseDate = (FT.parseTimeM True FT.defaultTimeLocale "%-d/%-m/%Y") . CL.unpack
 
 main :: IO Int
 main = do
