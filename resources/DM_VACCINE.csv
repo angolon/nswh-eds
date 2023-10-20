@@ -1,11 +1,11 @@
-"vaccine_id,vaccine_name,manufacturer"
-"101,COVID-19 Vaccine,Pfizer"
-"102,COVID-19 Vaccine,Moderna"
-"103,COVID-19 Vaccine,AstraZeneca"
-"104,Flu Vaccine,FluAid"
-"105,Flu Vaccine,FluGuard"
-"106,Flu Vaccine,FluShield"
-"107,HPV Vaccine,Gardasil"
-"108,HPV Vaccine,Cervarix"
-"109,HPV Vaccine,Gardivax"
-"110,Tetanus Vaccine,TetanoGuard"
+vaccine_id,vaccine_name,manufacturer
+101,COVID-19 Vaccine,Pfizer
+102,COVID-19 Vaccine,Moderna
+103,COVID-19 Vaccine,AstraZeneca
+104,Flu Vaccine,FluAid
+105,Flu Vaccine,FluGuard
+106,Flu Vaccine,FluShield
+107,HPV Vaccine,Gardasil
+108,HPV Vaccine,Cervarix
+109,HPV Vaccine,Gardivax
+110,Tetanus Vaccine,TetanoGuard
