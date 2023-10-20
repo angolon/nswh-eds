@@ -9,9 +9,12 @@ import Data.Csv (FromField (..), FromNamedRecord (..), (.:))
 import qualified Data.Time.Format as FT
 import qualified Data.ByteString.Char8 as C
 import qualified RawLab as Raw
+import Data.List (intersperse)
 import Text.Parsec
 import Text.Parsec.Char
+import Text.Parsec.Error
 import Text.Read (readEither)
+import Control.Monad (join)
 
 data CtParseState = CtParseState
   { hasReadCovid :: Bool
@@ -87,11 +90,18 @@ data Lab = Lab
   , influenzaAB :: Maybe Int
   } deriving (Show, Eq, Ord)
 
-fromRaw :: Raw.Lab -> Validation (NE.NonEmpty String) Lab
-fromRaw raw =
+fromRaw :: (Int, Raw.Lab) -> Validation (NE.NonEmpty String) Lab
+fromRaw (lineNum, raw) =
   let initialState = CtParseState False False False Nothing Nothing Nothing
       parsedState = runParser parseCtValues initialState "ctValues field" $ Raw.ctValues raw
-      validatedState = validationNel $ BF.first show parsedState
+      formatParseError err =
+        "Error parsing Ct Values \""
+            ++ Raw.ctValues raw
+            ++ "\" on line: "
+            ++ show lineNum
+            ++ ": "
+            ++ show err
+      validatedState = validationNel $ BF.first formatParseError parsedState
       toLab state = Lab {
         caseNum = Raw.caseNum raw,
         first = Raw.first raw,

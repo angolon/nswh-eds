@@ -19,7 +19,9 @@ import qualified RawLab as Raw
 import qualified Lab as Lab
 import System.Exit (exitFailure, exitSuccess)
 
-parseLines :: CL.ByteString -> Validation (NE.NonEmpty String) [Raw.Lab]
+-- Parses the records, and returns them tupled with their line numbers
+-- on success
+parseLines :: CL.ByteString -> Validation (NE.NonEmpty String) [(Int, Raw.Lab)]
 parseLines ls =
   sequenceA . readCsv decodeByName . CL.toChunks . CL.unlines . fmap clean $ CL.lines ls
           -- Provided input has CRLF terminators, and wraps each whole line in quotes
@@ -40,7 +42,8 @@ parseLines ls =
         -- for each record - regardless of success or failure.
         incrementAndFormat lineNum record =
           let formatted = validationNel . BF.first (formatError lineNum) $ record
-           in (lineNum + 1, formatted)
+              tupled = BF.second (lineNum,) formatted
+           in (lineNum + 1, tupled)
         countAndFormat = L.mapAccumL incrementAndFormat
         readRecord _ lineNum records (Fail _ err) = malformed:records
           where malformed = validationNel . Left . formatError lineNum $ err
