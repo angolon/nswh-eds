@@ -17,39 +17,29 @@ object Main extends App {
   spark.sparkContext.setLogLevel("ERROR")
   import spark.implicits._
 
-  def readCsv[T: Encoder](path: String): Dataset[T] =
+  val extractDir = "../resources"
+  val outputDir = "./output"
+
+  def readCsv[T: Encoder : Locatable]: Dataset[T] = {
+    val path = Path.of(extractDir, implicitly[Locatable[T]].extractCsvPath)
     spark.read
       .option("inferSchema", value = true)
       .option("header", value = true)
       .option("preferDate", value = true)
       .option("dateFormat", value = "yyyy-MM-dd")
-      .csv(path)
+      .csv(path.toString)
       .as[T]
-
-  val extractDir = "../resources"
-  val outputDir = "./output"
-
-  def readVaccinationEpisodes: Dataset[VaccinationEpisode] =
-    readCsv(Path.of(extractDir, VaccinationEpisode.extractCsvPath).toString)
-
-  def readVaccinationStatuses: Dataset[VaccinationStatus] =
-    readCsv(Path.of(extractDir, VaccinationStatus.extractCsvPath).toString)
-
-  def readPeople: Dataset[Person] =
-    readCsv(Path.of(extractDir, Person.extractCsvPath).toString)
-
-  def readVaccines: Dataset[Vaccine] =
-    readCsv(Path.of(extractDir, Vaccine.extractCsvPath).toString)
+  }
 
   def etl(): Unit = {
     // Extract data from CSVs -- type based schemas will automatically
     // transform fields from the strings contained in the CSV into their
     // appropriately typed representation (or fail with an error if a field
     // can't be parsed).
-    val people = readPeople
-    val vaccines = readVaccines
-    val vaccinationEpisodes = readVaccinationEpisodes
-    val vaccinationStatuses = readVaccinationStatuses
+    val people: Dataset[Person] = readCsv
+    val vaccines: Dataset[Vaccine] = readCsv
+    val vaccinationEpisodes: Dataset[VaccinationEpisode] = readCsv
+    val vaccinationStatuses: Dataset[VaccinationStatus] = readCsv
 
     // Save dimensions to parquet files.
     people.write

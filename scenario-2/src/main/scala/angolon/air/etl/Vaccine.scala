@@ -8,6 +8,8 @@ case class Vaccine(
 
 object Vaccine {
   // Settings that would come from conf in the real world
-  val extractCsvPath = "DM_VACCINE.csv"
-  val outputParquetPath = "vaccine.parquet"
+  implicit val locations: Locatable[Vaccine] = new Locatable[Vaccine] {
+    val extractCsvPath = "DM_VACCINE.csv"
+    val outputParquetPath = "vaccine.parquet"
+  }
 }

@@ -11,6 +11,8 @@ case class VaccinationStatus(
 
 object VaccinationStatus {
   // Settings that would come from conf in the real world
-  val extractCsvPath = "FCT_VACCINE_STATUS.csv"
-  val outputParquetPath = "vaccinationStatuses.parquet"
+  implicit val locations: Locatable[VaccinationStatus] = new Locatable[VaccinationStatus] {
+    val extractCsvPath = "FCT_VACCINE_STATUS.csv"
+    val outputParquetPath = "vaccinationStatuses.parquet"
+  }
 }
