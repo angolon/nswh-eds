@@ -16,6 +16,7 @@ import Data.Validation
 import qualified Data.Vector as V
 import System.IO (hPutStrLn, stderr)
 import qualified RawLab as Raw
+import qualified Lab as Lab
 
 parseLines :: CL.ByteString -> Validation (NE.NonEmpty String) [Raw.Lab]
 parseLines ls =
@@ -55,8 +56,12 @@ main :: IO Int
 main = do
   csvData <- BL.getContents -- read from stdin
   let parsed = parseLines csvData
+  let transformed = 
+        case parsed of
+          Success(records) -> traverse Lab.fromRaw records
+          Failure(errors) -> Failure(errors)
   exitCode <-
-    case parsed of
+    case transformed of
       Failure(errors) -> traverse_ (hPutStrLn stderr) errors >> pure 1
       Success(records) -> traverse_ (putStrLn . show) records >> pure 0
   return exitCode
