@@ -1,0 +1,11 @@
+case_number,first,surname,dob,gender,mobile,street,suburb,postcode,state,collection_date,testDate,testType,specimen_type,covid19,rsv,influenzaAB
+A1B2C3D4E5,John,Doe,1980-05-15,U,,123 Main St,Sydney,2000,NSW,2023-10-01,2023-10-02,PCR,Nasal Swab,30,18,
+U9V0W1X2Y,Sarah,Harris,1994-06-09,F,6543210987,777 Pine St,Perth,6000,WA,2023-10-05,2023-10-06,Rapid Antigen,Nasopharyngeal Swab,,,
+P5Q6R7S8T,Daniel,Evans,1982-02-14,M,,666 Oak St,Adelaide,5000,SA,2023-10-05,2023-10-06,PCR,Nasal Swab,23,14,
+U9V0W1X2Y,Zach,Brown,1990-11-30,U,,222 Cedar St,Perth,6000,WA,2023-10-03,2023-10-04,PCR,Throat Swab,40,15,
+K1L2M3N4O,Laura,Clark,1975-09-05,F,8765432109,555 Cedar St,Brisbane,4000,QLD,2023-10-04,2023-10-05,Rapid Antigen,Throat Swab,,21,26
+F6G7H8I9J,Michael,Turner,1985-04-20,M,1098765432,444 Maple St,Melbourne,3000,VIC,2023-10-04,2023-10-05,PCR,Nasal Swab,,,
+A1B2C3D4E5,Emily,Anderson,1998-07-12,F,2109876543,333 Birch St,Sydney,2000,NSW,2023-10-03,2023-10-04,Rapid Antigen,Nasopharyngeal Swab,,,
+F6G7H8I9J,Kate,Smith,1995-12-25,F,,456 Elm St,Melbourne,3000,VIC,2023-10-01,2023-10-02,Rapid Antigen,Nasopharyngeal Swab,,22,
+P5Q6R7S8T,Lisa,Williams,1988-08-18,F,4321098765,101 Pine St,Adelaide,5000,SA,2023-10-02,2023-10-03,Rapid Antigen,Nasal Swab,18,,
+K1L2M3N4O,David,Johnson,1972-03-03,M,5678901234,789 Oak St,Brisbane,4000,QLD,2023-10-02,2023-10-03,PCR,Throat Swab,,,28
