@@ -64,8 +64,9 @@ main = do
         case parsed of
           Success(records) -> traverse Lab.fromRaw records
           Failure(errors) -> Failure(errors)
+  let deduped = fmap L.nub transformed
   exitCode <-
-    case transformed of
+    case deduped of
       Failure(errors) -> traverse_ (hPutStrLn stderr) errors >> exitFailure
       Success(records) -> traverse_ (putStrLn . show) records >> exitSuccess
   return exitCode
