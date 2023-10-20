@@ -56,12 +56,25 @@ object Main extends App {
       .mode(SaveMode.Overwrite)
       .parquet("./output/vaccines.parquet")
 
+    // Presuming that the real-world vaccination table is very large,
+    // we partition the data on disk by the vaccination date.
+    // This partitioning could allow for various performance benefits
+    // in scenarios where we only wish to analyse the data for a subset
+    // of the total time range that it contains -- and various other
+    // potential clever tricks that are beyond the scope of this comment
+    // block :-).
+    // See the API docs for a brief explanation:
+    // https://spark.apache.org/docs/latest/api/scala/org/apache/spark/sql/DataFrameWriter.html#partitionBy(colNames:String*):org.apache.spark.sql.DataFrameWriter[T]
     vaccinationEpisodes.write
       .mode(SaveMode.Overwrite)
+      .partitionBy("vaccination_date")
       .parquet("./output/vaccinationEpisodes.parquet")
 
+    // Directory-Partition the vaccination status table similarly to
+    // vaccination episodes - for the same reasons.
     vaccinationStatuses.write
       .mode(SaveMode.Overwrite)
+      .partitionBy("date_given")
       .parquet("./output/vaccinationStatuses.parquet")
   }
 
