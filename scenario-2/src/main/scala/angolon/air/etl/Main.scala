@@ -51,6 +51,18 @@ object Main extends App {
     people.write
       .mode(SaveMode.Overwrite)
       .parquet("./output/people.parquet")
+
+    vaccines.write
+      .mode(SaveMode.Overwrite)
+      .parquet("./output/vaccines.parquet")
+
+    vaccinationEpisodes.write
+      .mode(SaveMode.Overwrite)
+      .parquet("./output/vaccinationEpisodes.parquet")
+
+    vaccinationStatuses.write
+      .mode(SaveMode.Overwrite)
+      .parquet("./output/vaccinationStatuses.parquet")
   }
 
   etl()
