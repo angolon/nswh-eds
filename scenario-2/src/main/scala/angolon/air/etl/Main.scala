@@ -1,6 +1,6 @@
 package angolon.air.etl
 
-import org.apache.spark.sql.{Encoder, Dataset, SparkSession}
+import org.apache.spark.sql.{Encoder, Dataset, SaveMode, SparkSession}
 import org.apache.spark.SparkConf
 
 object Main extends App {
@@ -37,8 +37,21 @@ object Main extends App {
   def readVaccines: Dataset[Vaccine] =
     readCsv("../resources/DM_VACCINE.csv")
 
-  readVaccinationEpisodes.show()
-  readVaccinationStatuses.show()
-  readPeople.show()
-  readVaccines.show()
+  def etl(): Unit = {
+    // Extract data from CSVs -- type based schemas will automatically
+    // transform fields from the strings contained in the CSV into their
+    // appropriately typed representation (or fail with an error if a field
+    // can't be parsed).
+    val people = readPeople
+    val vaccines = readVaccines
+    val vaccinationEpisodes = readVaccinationEpisodes
+    val vaccinationStatuses = readVaccinationStatuses
+
+    // Save dimensions to parquet files.
+    people.write
+      .mode(SaveMode.Overwrite)
+      .parquet("./output/people.parquet")
+  }
+
+  etl()
 }

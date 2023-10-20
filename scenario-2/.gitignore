@@ -11,4 +11,7 @@ project/plugins/project/
 .history
 .cache
 .lib/
+
+### Non-templated additions
 .bsp/
+output/
