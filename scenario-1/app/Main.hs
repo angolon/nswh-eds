@@ -17,6 +17,7 @@ import qualified Data.Vector as V
 import System.IO (hPutStrLn, stderr)
 import qualified RawLab as Raw
 import qualified Lab as Lab
+import System.Exit (exitFailure, exitSuccess)
 
 parseLines :: CL.ByteString -> Validation (NE.NonEmpty String) [Raw.Lab]
 parseLines ls =
@@ -52,7 +53,7 @@ parseLines ls =
           let (_, nextRecords) = countAndFormat lineNum parsed
            in nextRecords ++ records
 
-main :: IO Int
+main :: IO ()
 main = do
   csvData <- BL.getContents -- read from stdin
   let parsed = parseLines csvData
@@ -62,6 +63,6 @@ main = do
           Failure(errors) -> Failure(errors)
   exitCode <-
     case transformed of
-      Failure(errors) -> traverse_ (hPutStrLn stderr) errors >> pure 1
-      Success(records) -> traverse_ (putStrLn . show) records >> pure 0
+      Failure(errors) -> traverse_ (hPutStrLn stderr) errors >> exitFailure
+      Success(records) -> traverse_ (putStrLn . show) records >> exitSuccess
   return exitCode
