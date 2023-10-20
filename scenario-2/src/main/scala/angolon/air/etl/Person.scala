@@ -17,6 +17,6 @@ object Person {
   // Settings that would come from conf in the real world
   implicit val locations: Locatable[Person] = new Locatable[Person] {
     val extractCsvPath = "DM_PERSON.csv"
-    val outputParquetPath = "person.parquet"
+    val outputParquetPath = "people.parquet"
   }
 }

@@ -20,16 +20,20 @@ object Main extends App {
   val extractDir = "../resources"
   val outputDir = "./output"
 
-  def readCsv[T: Encoder : Locatable]: Dataset[T] = {
-    val path = Path.of(extractDir, implicitly[Locatable[T]].extractCsvPath)
+  def extractPath[T](implicit locations: Locatable[T]): String =
+    Path.of(extractDir, locations.extractCsvPath).toString
+
+  def outputPath[T](implicit locations: Locatable[T]): String =
+    Path.of(outputDir, locations.outputParquetPath).toString
+
+  def readCsv[T: Encoder : Locatable]: Dataset[T] =
     spark.read
       .option("inferSchema", value = true)
       .option("header", value = true)
       .option("preferDate", value = true)
       .option("dateFormat", value = "yyyy-MM-dd")
-      .csv(path.toString)
+      .csv(extractPath[T])
       .as[T]
-  }
 
   def etl(): Unit = {
     // Extract data from CSVs -- type based schemas will automatically
@@ -44,11 +48,11 @@ object Main extends App {
     // Save dimensions to parquet files.
     people.write
       .mode(SaveMode.Overwrite)
-      .parquet("./output/people.parquet")
+      .parquet(outputPath[Person])
 
     vaccines.write
       .mode(SaveMode.Overwrite)
-      .parquet("./output/vaccines.parquet")
+      .parquet(outputPath[Vaccine])
 
     // Presuming that the real-world vaccination table is very large,
     // we partition the data on disk by the vaccination date.
@@ -62,14 +66,14 @@ object Main extends App {
     vaccinationEpisodes.write
       .mode(SaveMode.Overwrite)
       .partitionBy("vaccination_date")
-      .parquet("./output/vaccinationEpisodes.parquet")
+      .parquet(outputPath[VaccinationEpisode])
 
     // Directory-Partition the vaccination status table similarly to
     // vaccination episodes - for the same reasons.
     vaccinationStatuses.write
       .mode(SaveMode.Overwrite)
       .partitionBy("date_given")
-      .parquet("./output/vaccinationStatuses.parquet")
+      .parquet(outputPath[VaccinationStatus])
   }
 
   etl()
